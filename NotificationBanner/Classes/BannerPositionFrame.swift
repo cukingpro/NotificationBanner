@@ -22,6 +22,7 @@ import UIKit
 public enum BannerPosition: Int {
     case bottom
     case top
+    case left
 }
 
 class BannerPositionFrame: NSObject {
@@ -47,12 +48,14 @@ class BannerPositionFrame: NSObject {
         - parameter bannerHeight: The height of the notification banner
         - parameter maxY: The maximum `y` position the banner can slide in from. This value is only used 
         if the bannerPosition is .bottom
+        - parameter finishYOffset: The `y` position offset the banner can slide in. Used for displaying several banenrs simaltaneously
         - parameter edgeInsets: The sides edges insets from superview
      */
     private func startFrame(for bannerPosition: BannerPosition,
                             bannerWidth: CGFloat,
                             bannerHeight: CGFloat,
                             maxY: CGFloat,
+                            finishYOffset: CGFloat = 0,
                             edgeInsets: UIEdgeInsets?) -> CGRect {
         
         let edgeInsets = edgeInsets ?? .zero
@@ -68,7 +71,11 @@ class BannerPositionFrame: NSObject {
                           y: -bannerHeight,
                           width: bannerWidth - edgeInsets.left - edgeInsets.right,
                           height: bannerHeight)
-
+        case .left:
+            return CGRect(x: -bannerWidth,
+                          y: edgeInsets.top + finishYOffset,
+                          width: bannerWidth - edgeInsets.left - edgeInsets.right,
+                          height: bannerHeight)
         }
     }
     
@@ -97,6 +104,11 @@ class BannerPositionFrame: NSObject {
                           width: startFrame.width,
                           height: startFrame.height)
         case .top:
+            return CGRect(x: edgeInsets.left,
+                          y: edgeInsets.top + finishYOffset,
+                          width: startFrame.width,
+                          height: startFrame.height)
+        case .left:
             return CGRect(x: edgeInsets.left,
                           y: edgeInsets.top + finishYOffset,
                           width: startFrame.width,

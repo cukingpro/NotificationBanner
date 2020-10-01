@@ -66,11 +66,18 @@ open class NotificationBannerQueue: NSObject {
         } else {
             banner.show(placeOnQueue: false, bannerPosition: bannerPosition)
 
-            if let firstBanner = firstNotDisplayedBanner() {
-                firstBanner.suspend()
-            }
+//            if let firstBanner = firstNotDisplayedBanner() {
+//                firstBanner.suspend()
+//            }
 
             banners.insert(banner, at: 0)
+
+            banners.forEach {
+                $0.updateBannerPositionFrames()
+                if $0.isDisplaying {
+                    $0.animateUpdatedBannerPositionFrames()
+                }
+            }
         }
 
     }

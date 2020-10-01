@@ -278,9 +278,9 @@ open class BaseNotificationBanner: UIView {
         
         return bannerQueue.banners.prefix(bannerIndex).reduce(0) { $0
             + $1.bannerHeight
-            - (bannerPosition == .top ? spacerViewHeight() : 0) // notch spacer height for top position only
-            + (bannerPosition == .top ? spacerViewDefaultOffset : -spacerViewDefaultOffset) // to reduct additions in createBannerConstraints (it's needed for proper shadow framing)
-            + (bannerPosition == .top ? spacerViewDefaultOffset : -spacerViewDefaultOffset) // default space between banners
+            - (bannerPosition == .top || bannerPosition == .left ? spacerViewHeight() : 0) // notch spacer height for top position only
+            + (bannerPosition == .top || bannerPosition == .left ? spacerViewDefaultOffset : -spacerViewDefaultOffset) // to reduct additions in createBannerConstraints (it's needed for proper shadow framing)
+            + (bannerPosition == .top || bannerPosition == .left ? spacerViewDefaultOffset : -spacerViewDefaultOffset) // default space between banners
             // this calculations are made only for banners except first one, for first banner it'll be 0
         }
     }
@@ -288,7 +288,7 @@ open class BaseNotificationBanner: UIView {
     internal func updateBannerPositionFrames() {
         guard let window = appWindow else { return }
         bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
-                                                  bannerWidth: window.width,
+                                                  bannerWidth: window.width / 2,
                                                   bannerHeight: bannerHeight,
                                                   maxY: maximumYPosition(),
                                                   finishYOffset: finishBannerYOffset(),
@@ -473,7 +473,7 @@ open class BaseNotificationBanner: UIView {
                        height: bannerHeight)
 
         bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
-                                                  bannerWidth: window.width,
+                                                  bannerWidth: window.width / 2,
                                                   bannerHeight: bannerHeight,
                                                   maxY: maximumYPosition(),
                                                   finishYOffset: finishBannerYOffset(),

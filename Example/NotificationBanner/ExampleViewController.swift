@@ -269,7 +269,7 @@ extension ExampleViewController: ExampleViewDelegate {
         func showBanners(_ banners: [FloatingNotificationBanner],
                          in notificationBannerQueue: NotificationBannerQueue) {
             banners.forEach { banner in
-                banner.show(bannerPosition: selectedBannerPosition(),
+                banner.show(queuePosition: selectedQueuePosition(), bannerPosition: selectedBannerPosition(),
                             queue: notificationBannerQueue,
                             cornerRadius: 8,
                             shadowColor: UIColor(red: 0.431, green: 0.459, blue: 0.494, alpha: 1),

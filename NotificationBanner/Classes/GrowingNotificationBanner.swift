@@ -35,7 +35,7 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
                 // Calculate the height based on contents of labels
                 
                 // Determine available width for displaying the label
-                var boundingWidth = UIScreen.main.bounds.width - padding * 2
+                var boundingWidth = UIScreen.main.bounds.width / 2 - padding * 2
                 
                 // Substract safeAreaInsets from width, if available
                 // We have to use keyWindow to ask for safeAreaInsets as `self` only knows its' safeAreaInsets in layoutSubviews
@@ -46,11 +46,11 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
                 }
                 
                 if leftView != nil {
-                    boundingWidth -= sideViewSize + padding
+                    boundingWidth -= leftSideViewSize + padding
                 }
                 
                 if rightView != nil {
-                    boundingWidth -= sideViewSize + padding
+                    boundingWidth -= rightSideViewSize + padding
                 }
                 
                 let titleHeight = ceil(titleLabel?.sizeThatFits(
@@ -93,7 +93,8 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
     private var rightView: UIView?
     
     /// Square size for left/right view if set
-    private let sideViewSize: CGFloat
+    private let leftSideViewSize: CGFloat
+    private let rightSideViewSize: CGFloat
     
     /// Font used for the title label
     internal var titleFont: UIFont = UIFont.systemFont(ofSize: 17.5, weight: UIFont.Weight.bold)
@@ -109,12 +110,14 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
         style: BannerStyle = .info,
         colors: BannerColorsProtocol? = nil,
         iconPosition: IconPosition = .center,
-        sideViewSize: CGFloat = 24.0
+        leftSideViewSize: CGFloat = 35.0,
+        rightSideViewSize: CGFloat = 20.0
     ) {
         
         self.leftView = leftView
         self.rightView = rightView
-        self.sideViewSize = sideViewSize
+        self.leftSideViewSize = leftSideViewSize
+        self.rightSideViewSize = rightSideViewSize
         
         super.init(style: style, colors: colors)
         
@@ -134,7 +137,7 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
         
         if let leftView = leftView {
             outerStackView.addArrangedSubview(leftView)
-            leftView.snp.makeConstraints { $0.size.equalTo(sideViewSize) }
+            leftView.snp.makeConstraints { $0.size.equalTo(leftSideViewSize) }
         }
         
         outerStackView.addArrangedSubview(labelsView)
@@ -163,7 +166,7 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
         
         if let rightView = rightView {
             outerStackView.addArrangedSubview(rightView)
-            rightView.snp.makeConstraints { $0.size.equalTo(sideViewSize) }
+            rightView.snp.makeConstraints { $0.size.equalTo(rightSideViewSize) }
         }
         
         contentView.addSubview(outerStackView)

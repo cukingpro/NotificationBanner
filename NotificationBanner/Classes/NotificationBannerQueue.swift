@@ -56,6 +56,10 @@ open class NotificationBannerQueue: NSObject {
         bannerPosition: BannerPosition,
         queuePosition: QueuePosition
     ) {
+        
+        if banners.contains { $0.titleLabel?.text == banner.titleLabel?.text } {
+            return
+        }
 
         if queuePosition == .back {
             banners.append(banner)

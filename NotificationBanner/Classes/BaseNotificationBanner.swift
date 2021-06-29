@@ -522,13 +522,13 @@ open class BaseNotificationBanner: UIView {
         frame = CGRect(
             x: frame.origin.x,
             y: newY,
-            width: window.width - edgeInsets.left - edgeInsets.right,
+            width: window.width / 2 - edgeInsets.left - edgeInsets.right,
             height: bannerHeight
         )
 
         bannerPositionFrame = BannerPositionFrame(
             bannerPosition: bannerPosition,
-            bannerWidth: window.width,
+            bannerWidth: window.width / 2,
             bannerHeight: bannerHeight,
             maxY: maximumYPosition(),
             finishYOffset: finishBannerYOffset(),
